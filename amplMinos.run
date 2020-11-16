@@ -1,0 +1,20 @@
+reset;
+model modelo.mod;
+option solver minos;
+param promedioX default 0;
+param promedioY default 0;
+param tiempo default 0;
+#param iterations:=0;
+for {1..10} {
+	reset data Xg, Yg, w, x, y;
+	solve;
+	let promedioX := promedioX+ Xg;
+	let promedioY := promedioY+ Yg;
+	#let iterations := iterations + _niters;
+	let tiempo := tiempo + _solve_time
+}
+let promedioX := promedioX / 10;
+let promedioY := promedioY / 10;
+#let iterations := iterations / 10;
+display n, promedioX, promedioY, FO, tiempo;
+
